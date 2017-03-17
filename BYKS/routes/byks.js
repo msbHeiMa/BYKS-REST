@@ -1,6 +1,6 @@
 var webRes = require(ROOT_DIR + "/common/tools").webRes;
 var webReq = require(ROOT_DIR + "/common/tools").webReq;
-var dpService = require(ROOT_DIR + "/common/service/dp/dpService");
+var dpService = require(ROOT_DIR + "/common/service/byks/byksService");
 var actions = {
      /*
      新增接口9：

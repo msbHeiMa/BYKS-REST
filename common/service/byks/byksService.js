@@ -1,5 +1,5 @@
 var async = require(ROOT_DIR + "/common/tools").async;
-var dpGetGDPTJAccess = require(ROOT_DIR + "/common/dal/dp/dpGetGDPTJAccess");
+var dpGetGDPTJAccess = require(ROOT_DIR + "/common/dal/byks/dpGetGDPTJAccess");
 var that = {
     //新增接口9
     getGDPByAllTown:function(tjDate,callback){

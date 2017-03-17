@@ -1,7 +1,6 @@
 var webRes = require(ROOT_DIR + "/common/tools").webRes;
 var webReq = require(ROOT_DIR + "/common/tools").webReq;
 var dpService = require(ROOT_DIR + "/common/service/dp/dpService");
-var cigScreenMaintenanceService = require(ROOT_DIR + "/common/service/dp/cigScreenMaintenanceService");
 var actions = {
     /*
         接口1：
@@ -506,11 +505,6 @@ var actions = {
         var query = webReq.getQueryParam(req, {
             tjDate: "",
         });
-        //跨域
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-        res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-        res.header("X-Powered-By", 'CIG');
         dpService.getGDPByAllTown(
             query.tjDate,
             webRes.exportJson.bind(null, res)

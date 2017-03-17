@@ -1,0 +1,77 @@
+{
+  // Applications part
+  "apps" : [{
+    "name"      : "rest",                  
+    "script"    : "www.js",   
+    "node_args": ["--debug=7000"],
+    "env": {
+      "COMMON_VARIABLE": "true"   //
+    },
+    // Environment variables injected when starting with --env production
+    // http://pm2.keymetrics.io/docs/usage/application-declaration/#switching-to-different-environments
+    "env_dev" : {
+      "NODE_ENV": "dev",
+      "NODE_PATH" : "/root/node/lib/node_modules",
+      "PORT":3000,
+      "NODE_DB_TYPE":"oracledb",
+      "NODE_ORACLEDB_USER":"cigproxy",
+      "NODE_ORACLEDB_PASSWORD":"cigproxy",
+      "NODE_ORACLEDB_CONNECTIONSTRING":"10.10.9.148:1521/orcl",
+      "TOKEN_SERVICE":"http://222.46.11.118:14180/CIGService/webservice/tokenservice.asmx",
+      "GEO_SERVER_HOST":"222.46.11.118",
+      "GEO_SERVER_PORT":14380
+    },
+    "env_production" : {
+      "NODE_ENV": "production",
+      "PORT":3000,
+      "NODE_DB_TYPE":"oracledb",
+      "NODE_ORACLEDB_USER":"cigproxy",
+      "NODE_ORACLEDB_PASSWORD":"cigproxy",
+      "NODE_ORACLEDB_CONNECTIONSTRING":"10.10.9.148:1521/orcl",
+      "TOKEN_SERVICE":"http://222.46.11.118:14180/CIGService/webservice/tokenservice.asmx",
+      "GEO_SERVER_HOST":"222.46.11.118",
+      "GEO_SERVER_PORT":14380
+    }
+  }],
+  // Deployment part
+  // Here you describe each environment
+  "deploy" : {
+    "production" : {
+      "user" : "node",
+      // Multi host is possible, just by passing IPs/hostname as an array
+      "host" : ["192.168.3.231"],
+      // Branch
+      "ref"  : "origin/master",
+      // Git repository to clone
+      "repo" : "git@github.com:repo.git",
+      // Path of the application on target servers
+      "path" : "/var/www/production",
+      // Can be used to give options in the format used in the configura-
+      // tion file.  This is useful for specifying options for which there
+      // is no separate command-line flag, see 'man ssh' 
+      // can be either a single string or an array of strings
+      "ssh_options": "StrictHostKeyChecking=no",
+      // Commands to execute locally (on the same machine you deploy things)
+      // Can be multiple commands separated by the character ";"
+      "pre-deploy-local" : "echo 'This is a local executed command'",
+      // Commands to be executed on the server after the repo has been cloned
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production",
+      // Environment variables that must be injected in all applications on this env
+      "env"  : {
+        "NODE_ENV": "production"
+      }
+    },
+    "dev" : {
+      "user" : "root",
+      "host" : "192.168.3.231",
+      "ref"  : "origin/yongchangpublish",//分支 用分支发布
+      "repo" : "git@cigpk.hopto.org:cig/rest.git",
+      "path" : "/root/www/yongchang/newsource",
+      "ssh_options": ["StrictHostKeyChecking=no", "PasswordAuthentication=no"],
+      "post-deploy" : "pm2 startOrReload ecosystem.json --env dev",
+      "env"  : {
+        "NODE_ENV": "dev"
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+htmls/
+npm-debug.log
+node_modules
+.vscode
+typings/globals/
+typings/modules/
+typings/index.d.ts
+typings.json
+myApp/
+*[tT]emp/

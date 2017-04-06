@@ -1,24 +1,14 @@
 var async = require(ROOT_DIR + "/common/tools").async;
-var dpGetGDPTJAccess = require(ROOT_DIR + "/common/dal/byks/dpGetGDPTJAccess");
+var getAllCourseAccess = require(ROOT_DIR + "/common/dal/byks/getAllCourseAccess");
 var that = {
-    //新增接口9
-    getGDPByAllTown:function(tjDate,callback){
-        var gdp = new dpGetGDPTJAccess(null);
-        var filter={tjDate:tjDate};
+    getAllCourse:function(callback){
+        var acc = new getAllCourseAccess(null);
+        var filter={};
         async.series([
-            gdp.open.bind(gdp,false),
-            gdp.getObjects.bind(gdp,filter,["TJ_DATE"])
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["CREATE_DATE"])
         ],function(err,data){
-            gdp.close(function(){})
-            var  obj={};
-            for(var i=0;i<data[1].length;i++){
-                var diqu=data[1][i].area;
-                //obj.diqu=data[1][i].gdp
-                // obj={ }
-                obj[diqu]=data[1][i].gdp
-              
-            }
-            data[1]=obj;
+            acc.close(function(){})
             callback(err,data&&data[1])
         })
     },

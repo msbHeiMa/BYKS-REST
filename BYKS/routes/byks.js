@@ -17,7 +17,7 @@ var actions = {
             query.type,
             webRes.exportJson.bind(null, res));
     },
-    //登陆接口
+    //登陆注册界面 登陆接口
     login: {
         post: function (req, res) {
             var data = webReq.getParam(req, {
@@ -32,6 +32,25 @@ var actions = {
     //     $file_path = '../../../uploads/';
 	//     $file_up = $file_path.basename($_FILES['upload']['name']);
     // },
+    //首页精彩内容展示接口
+    getJCZS:function(req,res){
+        byksService.getJCZSList(webRes.exportJson.bind(null, res));
+    },
+    //首页热点推送接口
+    getReDian:function(req,res){
+        byksService.getReDianList(webRes.exportJson.bind(null, res));
+    },
+    //登陆注册界面 注册接口
+    zhuce:{
+        post:function(req,res){
+             var data = webReq.getParam(req, {
+                userName: "",
+                passWord: "",
+            });
+            byksService.zhuce(data.userName,data.passWord,webRes.exportJson.bind(null, res));
+      
+        }
+    },
 
     
 };

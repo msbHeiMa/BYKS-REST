@@ -252,9 +252,9 @@ baseAccess.prototype = {
         if (!obj["CREATE_DATE"]) {
             obj["CREATE_DATE"] = new Date().Format("yyyy-MM-dd hh:mm:ss");
         }
-        if (!obj["CREATE_USER"]) {
-            obj["CREATE_USER"] = this.operater ? this.operater.userName : "系统";
-        }
+        // if (!obj["CREATE_USER"]) {
+        //     obj["CREATE_USER"] = this.operater ? this.operater.userName : "系统";
+        // }
         return obj;
     },
     delete: function (filter, callback) {

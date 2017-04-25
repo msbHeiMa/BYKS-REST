@@ -10,7 +10,7 @@ tableAccess.prototype = unit.inherits({
              "rdBiaoTi":"RD_BIAOTI",
              "rdIntro":"RD_INTRO",
              "rdImages":"RD_IMAGES",
-             "createDate":"CREATE_DATE",
+             "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",
              "updateDate":"UPDATE_DATE",
         };
     },

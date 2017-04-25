@@ -10,7 +10,7 @@ tableAccess.prototype = unit.inherits({
              "jcBiaoTi":"JC_BIAOTI",
              "jcIntro":"JC_INTRO",
              "jcImages":"JC_IMAGES",
-             "createDate":"CREATE_DATE",
+             "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",
              "updateDate":"UPDATE_DATE",
         };
     },

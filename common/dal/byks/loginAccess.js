@@ -10,7 +10,7 @@ tableAccess.prototype = unit.inherits({
              "userName":"USERNAME",
              "passWord":"PASSWORD",
              "userImage":"USERIMAGE",
-             "createDate":"CREATE_DATE",
+             "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",
              "updateDate":"UPDATE_DATE",
         };
     },

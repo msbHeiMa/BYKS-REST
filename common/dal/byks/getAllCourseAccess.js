@@ -11,7 +11,7 @@ tableAccess.prototype = unit.inherits({
              "crowd":"CROWD",
              "keShi":"KESHI",
              "kcImages":"KC_IMAGES",
-             "createDate":"CREATE_DATE",
+             "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",
              "updateDate":"UPDATE_DATE",
         };
     },

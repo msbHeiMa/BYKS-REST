@@ -51,6 +51,17 @@ var actions = {
       
         }
     },
+    //作品展示页面 获取作品信息接口
+    getAllZP:function(req,res){
+        byksService.getAllZPList(webRes.exportJson.bind(null, res));
+    },
+    //作品详情页面 通过ID查到相应作品信息接口
+    getZPById:function(req,res){
+        var data=webReq.getQueryParam(req,{
+            id:"",
+        });
+        byksService.getZPById(data.id,webRes.exportJson.bind(null, res));
+    },
 
     
 };

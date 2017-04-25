@@ -4,6 +4,7 @@ var getTuBiaoAccess = require(ROOT_DIR + "/common/dal/byks/getTuBiaoAccess");
 var loginAccess=require(ROOT_DIR + "/common/dal/byks/loginAccess");
 var getJCZSAccess=require(ROOT_DIR + "/common/dal/byks/getJCZSAccess");
 var getReDianAccess=require(ROOT_DIR + "/common/dal/byks/getReDianAccess");
+var getAllZPListAccess=require(ROOT_DIR + "/common/dal/byks/getAllZPListAccess");
 var that = {
     //报名课程模块下面课程获取接口
     getAllCourse:function(callback){
@@ -86,6 +87,7 @@ var that = {
                      acc.insert.bind(acc,obj)
                  ],function(err,data){
                      acc.close(function(){});
+                     data[1]=obj.id;
                      callback(err,data&&data[1])
                  })
              }else{
@@ -95,5 +97,29 @@ var that = {
              }
          })
      },
+    //作品展示页面 获取作品信息接口
+    getAllZPList:function(callback){
+        var acc= new getAllZPListAccess(null);
+        var filter={};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["CREATE_DATE"])
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //作品详情页面 通过ID查到相应作品信息接口
+    getZPById:function(id,callback){
+        var acc =new getAllZPListAccess(null);
+        var filter={id:id};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObject.bind(acc,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
 }
 module.exports = that;

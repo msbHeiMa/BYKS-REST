@@ -46,8 +46,9 @@ var actions = {
              var data = webReq.getParam(req, {
                 userName: "",
                 passWord: "",
+                userImage: "",
             });
-            byksService.zhuce(data.userName,data.passWord,webRes.exportJson.bind(null, res));
+            byksService.zhuce(data.userName,data.passWord,data.userImage,webRes.exportJson.bind(null, res));
       
         }
     },
@@ -55,14 +56,42 @@ var actions = {
     getAllZP:function(req,res){
         byksService.getAllZPList(webRes.exportJson.bind(null, res));
     },
-    //作品详情页面 通过ID查到相应作品信息接口
+    //作品详情页面 通过作品ID查到相应作品信息接口
     getZPById:function(req,res){
         var data=webReq.getQueryParam(req,{
             id:"",
         });
         byksService.getZPById(data.id,webRes.exportJson.bind(null, res));
     },
-
+    //作品详情页面 通过作品ID查到对该作品的所有评论
+    getPingLun:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.getPingLunById(query.id,webRes.exportJson.bind(null, res));
+    },
+    //作品详情页面 发表评论
+    savePingLun:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                 plrName:"",
+                 plContant:"",
+                 zpId:"",
+            });
+            byksService.savePingLun(data,webRes.exportJson.bind(null, res));
+        }    
+    },
+    //作品展示页面 点赞功能
+    getDianZan:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                zpId:"",
+                userId:"",
+                likeTime:"",
+            });
+            byksService.getDianZan(data,webRes.exportJson.bind(null, res));
+        }
+    },
     
 };
 module.exports = actions;

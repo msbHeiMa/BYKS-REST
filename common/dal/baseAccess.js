@@ -199,9 +199,9 @@ baseAccess.prototype = {
         if (!attrs["UPDATE_DATE"]) {
             attrs["UPDATE_DATE"] = new Date().Format("yyyy-MM-dd hh:mm:ss");
         }
-        if (!attrs["UPDATE_USER"]) {
-            attrs["UPDATE_USER"] = this.operater ? this.operater.userName : "系统";
-        }
+        // if (!attrs["UPDATE_USER"]) {
+        //     attrs["UPDATE_USER"] = this.operater ? this.operater.userName : "系统";
+        // }
         return attrs;
     },
     /**

@@ -157,8 +157,6 @@ var that = {
         var isLikeed={zpId:data.zpId,userId:data.userId};
         //编辑BYKE_ZP中对应作品点赞次数的查询条件
         var filter={id:data.zpId};
-        //编辑BYKE_ZP中对应作品点赞次数的变换后参数
-        var bianjiLikeTime={likeTime:data.likeTime}
         //如果BYKS_DZJL库中没有用户点赞信息时需要存入库中的各项参数
         var dianzan={
             id:unit.getUuid(),
@@ -167,11 +165,15 @@ var that = {
         };
         async.series([
             DZJL.open.bind(DZJL,false),
-            DZJL.getObject.bind(DZJL,isLikeed)
+            DIANZAN.open.bind(DIANZAN,false),
+            DZJL.getObject.bind(DZJL,isLikeed),
+            DIANZAN.getObject.bind(DIANZAN,filter)
         ],function(err,data){
             DZJL.close(function(){})
             //如果data[1]为null说明该用户没有对该作品点过赞
-            if(data[1]==null){
+            if(data[2]==null){
+                //编辑BYKE_ZP中对应作品点赞次数的变换后参数
+                var bianjiLikeTime={likeTime:parseInt(data[3].likeTime)+1}
                 async.series([
                     DIANZAN.open.bind(DIANZAN,false),
                     DZJL.open.bind(DZJL,false),
@@ -180,13 +182,30 @@ var that = {
                 ],function(err,data){
                     DZJL.close(function(){});
                     DIANZAN.close(function(){})
-                    data[1]="可赞"
+                    data[1]={
+                        zhuangtai:"可赞",
+                        likeTime:bianjiLikeTime.likeTime,
+                    };
+
                     callback(err,data&&data[1])
                 })
             }else{
                 data[1]="您已经赞过了";
                 callback(err,data&&data[1])
             }
+        })
+    },
+    //
+     //上传作品页面 上传操作
+    upload:function(data,callback){
+        var acc= new getAllZPListAccess(null);
+        data.id=unit.getUuid();
+        async.series([
+            acc.open.bind(acc,false),
+            acc.insert.bind(acc,data)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
         })
     },
 }

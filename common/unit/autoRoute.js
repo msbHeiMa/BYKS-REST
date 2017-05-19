@@ -39,7 +39,7 @@ module.exports = {
                         }
                         else{
                             var form = new formidable.IncomingForm();
-                            form.uploadDir = options.tmpPath;   //文件保存在系统临时目录
+                            form.uploadDir = "E:/BYKS/BYKS/rest/BYKS/routes/uploadFile/temp";   //文件保存在系统临时目录 options.tmpPath
                             form.maxFieldsSize = 10 * 1024 * 1024;  //上传文件大小限制为最大10M  
                             form.keepExtensions = true;        //使用文件的原扩展名
                             // 检查目标目录，不存在则创建

@@ -87,11 +87,26 @@ var actions = {
             var data=webReq.getParam(req,{
                 zpId:"",
                 userId:"",
-                likeTime:"",
+                // likeTime:"",
             });
             byksService.getDianZan(data,webRes.exportJson.bind(null, res));
         }
     },
+    //上传作品页面
+    upload:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                id:"",
+                utterer:"",
+                worksName:"",
+                worksType:"",
+                likeTime:"",
+                worksIntro:"",
+                worksImages:"",
+            });
+            byksService.upload(data,webRes.exportJson.bind(null, res));
+        }
+    }
     
 };
 module.exports = actions;

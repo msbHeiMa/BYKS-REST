@@ -56,6 +56,13 @@ var actions = {
     getAllZP:function(req,res){
         byksService.getAllZPList(webRes.exportJson.bind(null, res));
     },
+    //作品展示页面 通过类型筛选作品接口
+    getAllZPByType:function(req,res){
+         var query=webReq.getQueryParam(req,{
+            type:"",
+        })
+        byksService.getAllZPByType(query.type,webRes.exportJson.bind(null, res));
+    },
     //作品详情页面 通过作品ID查到相应作品信息接口
     getZPById:function(req,res){
         var data=webReq.getQueryParam(req,{

@@ -113,6 +113,18 @@ var that = {
             callback(err,data&&data[1])
         })
     },
+    //作品展示页面 通过类型筛选作品接口
+    getAllZPByType:function(type,callback){
+        var acc= new getAllZPListAccess(null);
+        var filter=(type=="全部类型"?{}:{worksType:type});
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["CREATE_DATE"])
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
     //作品详情页面 通过作品ID查到相应作品信息接口
     getZPById:function(id,callback){
         var acc =new getAllZPListAccess(null);

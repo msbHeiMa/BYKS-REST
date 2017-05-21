@@ -113,7 +113,27 @@ var actions = {
             });
             byksService.upload(data,webRes.exportJson.bind(null, res));
         }
-    }
+    },
+    //上传页面 将作品Id保存到我的管理数据库
+    uploadByUser:function(req,res){
+        var data=webReq.getParam(req,{
+            id:"",
+            userId:"",
+            manageType:"",
+            zpId:"",
+        });
+        byksService.uploadByUser(data,webRes.exportJson.bind(null, res));
+    },
+    //我的管理页面 上传作品报名关注课程接口
+    getManagement:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                userId:"",
+                manageType:"",
+            });
+            byksService.getManagement(data,webRes.exportJson.bind(null, res));
+        },
+    },
     
 };
 module.exports = actions;

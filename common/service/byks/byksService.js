@@ -1,13 +1,26 @@
 var async = require(ROOT_DIR + "/common/tools").async;
+//课程管理数据库 可增加 删除 编辑 查询
 var getAllCourseAccess = require(ROOT_DIR + "/common/dal/byks/getAllCourseAccess");
+//主页下方图表数据来源 图表数据库可 增加 删除 编辑  查询
 var getTuBiaoAccess = require(ROOT_DIR + "/common/dal/byks/getTuBiaoAccess");
+//用户表数据库 可 增加 删除 编辑  查询 
 var loginAccess=require(ROOT_DIR + "/common/dal/byks/loginAccess");
+//首页 精彩内容欣赏数据库（精彩内容展示）可 增加 删除 编辑  查询 
 var getJCZSAccess=require(ROOT_DIR + "/common/dal/byks/getJCZSAccess");
+//首页 热点信息数据库 可 增加 删除 编辑  查询 
 var getReDianAccess=require(ROOT_DIR + "/common/dal/byks/getReDianAccess");
+//作品管理表 可 增加 删除 编辑  查询 
 var getAllZPListAccess=require(ROOT_DIR + "/common/dal/byks/getAllZPListAccess");
+//评论表和用户表联合查询，定位到每位用户的所有评论（及每条评论的信息返回时都会带着相关用户信息）
 var getPingLunByIdAccess=require(ROOT_DIR + "/common/dal/byks/getPingLunByIdAccess");
+//评论表数据库 可 增加 删除 编辑  查询
 var savePingLunAccess=require(ROOT_DIR + "/common/dal/byks/savePingLunAccess");
+//点赞记录表 可 增加 删除 编辑  查询
 var getDZJLAccess=require(ROOT_DIR + "/common/dal/byks/getDZJLAccess");
+//我的管理，作品管理，课程管理三个表联合查询
+var getManagentByZpAndKcAccess=require(ROOT_DIR + "/common/dal/byks/getManagentByZpAndKcAccess");
+//我的管理数据库 可添加 删除 编辑 表内 查询数据
+var getManagentAccess=require(ROOT_DIR + "/common/dal/byks/getManagentAccess");
 var that = {
     //报名课程模块下面课程获取接口
     getAllCourse:function(callback){
@@ -207,10 +220,25 @@ var that = {
             }
         })
     },
-    //
-     //上传作品页面 上传操作
+    //上传作品页面 上传操作
     upload:function(data,callback){
         var acc= new getAllZPListAccess(null);
+        data.id=unit.getUuid();
+        var id=data.id;
+        async.series([
+            acc.open.bind(acc,false),
+            acc.insert.bind(acc,data)
+        ],function(err,data){
+            acc.close(function(){});
+            data[1]={
+                zpId:id,
+            }
+            callback(err,data&&data[1])
+        })
+    },
+    //上传页面 将作品Id保存到我的管理数据库
+    uploadByUser:function(data,callback){
+        var acc= new getManagentAccess(null);
         data.id=unit.getUuid();
         async.series([
             acc.open.bind(acc,false),
@@ -220,5 +248,17 @@ var that = {
             callback(err,data&&data[1])
         })
     },
+     //我的管理页面 上传作品报名关注课程接口
+    getManagement:function(data,callback){
+        var acc=new getManagentByZpAndKcAccess(null)
+        var filter={userId:data.userId,manageType:data.manageType};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["BYKS_MYMANAGE.CREATE_DATE desc"])
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },  
 }
 module.exports = that;

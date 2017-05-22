@@ -237,16 +237,46 @@ var that = {
         })
     },
     //上传页面 将作品Id保存到我的管理数据库
-    uploadByUser:function(data,callback){
+    uploadByUser:function(obj,callback){
         var acc= new getManagentAccess(null);
-        data.id=unit.getUuid();
-        async.series([
-            acc.open.bind(acc,false),
-            acc.insert.bind(acc,data)
-        ],function(err,data){
-            acc.close(function(){});
-            callback(err,data&&data[1])
-        })
+        obj.id=unit.getUuid();
+        var manageType=obj.manageType;
+        var filter={userId:obj.userId,manageType:obj.manageType,kcId:obj.kcId};
+        if(obj.manageType!="上传"){
+             async.series([
+                acc.open.bind(acc,false),
+                acc.getObject.bind(acc,filter)
+            ],function(err,data){
+                acc.close(function(){});
+                if(data[1]!=null){
+                    data[1]={
+                        back:"您以"+manageType+"此课程",
+                    }
+                    callback(err,data&&data[1])
+                }else{
+                    async.series([
+                        acc.open.bind(acc,false),
+                        acc.insert.bind(acc,obj)
+                    ],function(err,data){
+                        acc.close(function(){});
+                        data[1]={
+                         back:manageType+"成功",
+                        }
+                        callback(err,data&&data[1])
+                    })
+                }
+                
+            })
+        }else{
+            async.series([
+                acc.open.bind(acc,false),
+                acc.insert.bind(acc,obj)
+            ],function(err,data){
+                acc.close(function(){});
+                callback(err,data&&data[1])
+            })
+        }
+        
     },
      //我的管理页面 上传作品报名关注课程接口
     getManagement:function(data,callback){

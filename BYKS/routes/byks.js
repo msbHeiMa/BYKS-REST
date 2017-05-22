@@ -121,6 +121,7 @@ var actions = {
             userId:"",
             manageType:"",
             zpId:"",
+            kcId:"",
         });
         byksService.uploadByUser(data,webRes.exportJson.bind(null, res));
     },

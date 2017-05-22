@@ -135,6 +135,39 @@ var actions = {
             byksService.getManagement(data,webRes.exportJson.bind(null, res));
         },
     },
+    //我的管理页面 删除上传作品
+    deleteZp:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            zpId:"",
+        })
+        byksService.deleteZp(query.zpId,webRes.exportJson.bind(null, res));
+    },
+    //我的管理页面 报名的课程部分 取消报名功能
+    quXiaoBaoMingKc:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.quXiaoBaoMingKc(query.id,webRes.exportJson.bind(null, res));
+    },
+    //我的管理页面 我的关注部分 报名课程
+    baoMingKc:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                id:"",
+                kcId:"",
+                manageType:"",
+                userId:"',"
+            });
+            byksService.baoMingKc(data,webRes.exportJson.bind(null, res));
+        }
+    },
+    //我的管理页面 我的关注部分 取消关注
+    quXiaoGuanZhuKc:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.quXiaoGuanZhuKc(query.id,webRes.exportJson.bind(null, res));
+    },
     
 };
 module.exports = actions;

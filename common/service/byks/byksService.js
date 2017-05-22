@@ -290,5 +290,84 @@ var that = {
             callback(err,data&&data[1])
         })
     },  
+    //我的管理页面 删除上传作品
+    deleteZp:function(zpId,callback){
+        //我的管理数据库
+        var mg= new  getManagentAccess(null);
+        //作品管理数据库
+        var zp= new  getAllZPListAccess(null);
+        //我的管理数据库删除条件
+        var mgfilter={zpId:zpId};
+        //作品管理数据库删除条件
+        var zpfilter={id:zpId};
+        async.series([
+            mg.open.bind(mg,false),
+            zp.open.bind(zp,false),
+            mg.delete.bind(mg,mgfilter),
+            zp.delete.bind(zp,zpfilter),
+        ],function(err,data){
+            mg.close(function(){});
+            zp.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //我的管理页面 报名的课程部分 取消报名功能
+    quXiaoBaoMingKc:function(id,callback){
+        var acc = new getManagentAccess(null);
+        var filter={id:id}
+        async.series([
+            acc.open.bind(acc,false),
+            acc.delete.bind(acc,filter),
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //我的管理页面 我的关注部分 报名课程
+    baoMingKc:function(obj,callback){
+        var acc=new getManagentAccess(null);
+        var filter={userId:obj.userId,kcId:obj.kcId,manageType:"报名"};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObject.bind(acc,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            var obj2={
+                id:unit.getUuid(),
+                userId:obj.userId,
+                kcId:obj.kcId,
+                manageType:"报名",
+            }
+            if(data[1]==null){
+                async.series([
+                    acc.open.bind(acc,false),
+                    acc.insert.bind(acc,obj2)
+                ],function(err,data){
+                    acc.close(function(){});
+                    data[1]={
+                        back:"报名成功",
+                    }
+                    callback(err,data&&data[1])
+                })
+            }else if(data[1]!=null){
+                data[1]={
+                    back:"您已报名该课程"
+                }
+                callback(err,data&&data[1])
+            }
+        })
+    },
+    //我的管理页面 我的关注部分 取消关注
+    quXiaoGuanZhuKc:function(id,callback){
+        var acc = new getManagentAccess(null);
+        var faliter={id:id};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.delete.bind(acc,faliter)
+        ],function(err,data){
+            acc.close(function(){})
+            callback(data&&data[1])
+        })
+    },
 }
 module.exports = that;

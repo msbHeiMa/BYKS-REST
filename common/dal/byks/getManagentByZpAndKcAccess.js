@@ -13,7 +13,7 @@ tableAccess.prototype = unit.inherits({
              "userId":"BYKS_MYMANAGE.USER_ID",//用户ID
              "manageType":"BYKS_MYMANAGE.MANAGE_TYPE",//管理类型
              "zpId":"BYKS_MYMANAGE.ZP_ID",//作品ID
-             "kcIp":"BYKS_MYMANAGE.KC_ID",//课程ID
+             "kcId":"BYKS_MYMANAGE.KC_ID",//课程ID
              "kc_id":"BYKS_COURSE.ID",//课程ID
              "courseName":"BYKS_COURSE.COURSENAME",//课程名称
              "crowd":"BYKS_COURSE.CROWD",//适合人群

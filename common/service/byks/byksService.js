@@ -19,8 +19,12 @@ var savePingLunAccess=require(ROOT_DIR + "/common/dal/byks/savePingLunAccess");
 var getDZJLAccess=require(ROOT_DIR + "/common/dal/byks/getDZJLAccess");
 //我的管理，作品管理，课程管理三个表联合查询
 var getManagentByZpAndKcAccess=require(ROOT_DIR + "/common/dal/byks/getManagentByZpAndKcAccess");
-//我的管理数据库 可添加 删除 编辑 表内 查询数据
+//我的管理数据库 可添加 删除 编辑 增加 查询数据
 var getManagentAccess=require(ROOT_DIR + "/common/dal/byks/getManagentAccess");
+//课程详情数据库 可添加 删除 编辑 增加 查询数据
+var getKcDetailAccess=require(ROOT_DIR + "/common/dal/byks/getKcDetailAccess");
+//精彩内容产品详细信息数据库 可添加 删除 编辑 增加 查询数据
+var getJCZSDetailAccess=require(ROOT_DIR + "/common/dal/byks/getJCZSDetailAccess");
 var that = {
     //报名课程模块下面课程获取接口
     getAllCourse:function(callback){
@@ -61,6 +65,21 @@ var that = {
              callback(err,data&&data[1])
          })
      },
+     //
+     changUserImage:function(data,callback){
+         var acc=new loginAccess(null);
+         var filter={id:data.userId};
+         var obj={
+             userImage:data.userImage,
+         }
+         async.series([
+             acc.open.bind(acc,false),
+             acc.update.bind(acc,obj,filter)
+         ],function(err,data){
+             acc.close(function(){})
+             callback(err,data&&data[1])
+         })
+     },   
      //首页精彩内容展示接口
      getJCZSList:function(callback){
          var acc=new getJCZSAccess(null);
@@ -73,6 +92,18 @@ var that = {
              callback(err,data&&data[1])
          })
      },
+     //首页精彩内容详情信息
+     getJCZSDetail:function(id,callback){
+         var acc= new getJCZSDetailAccess(null);
+         var filter={jcnrId:id};
+         async.series([
+             acc.open.bind(acc,false),
+             acc.getObject.bind(acc,filter),
+         ],function(err,data){
+             acc.close(function(){});
+             callback(err,data&&data[1])
+         })
+     },
      //首页热点推送接口
      getReDianList:function(callback){
          var acc=new getReDianAccess(null);
@@ -80,6 +111,18 @@ var that = {
          async.series([
              acc.open.bind(acc,false),
              acc.getObjects.bind(acc,filter,["CREATE_DATE"])
+         ],function(err,data){
+             acc.close(function(){});
+             callback(err,data&&data[1])
+         })
+     },
+     //首页热点详情信息接口
+     getReDianDetail:function(id,callback){
+         var acc= new getReDianAccess(null);
+         var filter={id:id}
+         async.series([
+             acc.open.bind(acc,false),
+             acc.getObject.bind(acc,filter)
          ],function(err,data){
              acc.close(function(){});
              callback(err,data&&data[1])
@@ -366,7 +409,19 @@ var that = {
             acc.delete.bind(acc,faliter)
         ],function(err,data){
             acc.close(function(){})
-            callback(data&&data[1])
+            callback(err,data&&data[1])
+        })
+    },
+    //我的管理页面 报名课程部分 课程安排
+    getKcDetailByKcId:function(kcId,callback){
+        var acc =new getKcDetailAccess(null);
+        var filter={kcId:kcId}
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObject.bind(acc,filter),
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
         })
     },
 }

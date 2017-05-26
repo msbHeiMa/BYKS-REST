@@ -27,6 +27,16 @@ var actions = {
             byksService.login(data.userName,data.passWord,webRes.exportJson.bind(null, res));
         }
     },
+    //上传头像
+    changUserImage:{
+        post: function (req, res) {
+            var data = webReq.getParam(req, {
+                userId: "",
+                userImage: "",
+            });
+            byksService.changUserImage(data,webRes.exportJson.bind(null, res));
+        }
+    },
     //上传图片接口
     // postImages: function (req, res) {
     //     $file_path = '../../../uploads/';
@@ -36,9 +46,23 @@ var actions = {
     getJCZS:function(req,res){
         byksService.getJCZSList(webRes.exportJson.bind(null, res));
     },
+    //首页精彩内容详情信息
+    getJCZSDetail:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.getJCZSDetail(query.id,webRes.exportJson.bind(null, res));
+    },
     //首页热点推送接口
     getReDian:function(req,res){
         byksService.getReDianList(webRes.exportJson.bind(null, res));
+    },
+    //首页热点详情信息接口
+    getReDianDetail:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.getReDianDetail(query.id,webRes.exportJson.bind(null, res));
     },
     //登陆注册界面 注册接口
     zhuce:{
@@ -168,6 +192,12 @@ var actions = {
         })
         byksService.quXiaoGuanZhuKc(query.id,webRes.exportJson.bind(null, res));
     },
-    
+    //我的管理页面 报名课程部分 课程安排
+    getKcDetailByKcId:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            kcId:"",
+        })
+        byksService.getKcDetailByKcId(query.kcId,webRes.exportJson.bind(null, res));
+    },
 };
 module.exports = actions;

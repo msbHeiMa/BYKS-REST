@@ -138,7 +138,7 @@ var actions = {
             byksService.upload(data,webRes.exportJson.bind(null, res));
         }
     },
-    //上传页面 将作品Id保存到我的管理数据库
+    //上传页面 将作品Id保存到我的管理数据库 报名课程页面 报名功能
     uploadByUser:function(req,res){
         var data=webReq.getParam(req,{
             id:"",

@@ -26,6 +26,10 @@ tableAccess.prototype = unit.inherits({
              "likeTime":"BYKS_ZP.LIKETIME",//点赞次数
              "worksIntro":"BYKS_ZP.WORKSINTRO",//作品内容
              "worksImages":"BYKS_ZP.WORKSIMAGES",//作品图片
+             "status":"BYKS_ZP.STATUS",//作品状态
+             "wtgyy":"BYKS_ZP.WTGYY",//未通过原因
+             "shr":"BYKS_ZP.SHR",//审核人
+             "shDate":"BYKS_ZP.SHDATE",//审核日期
              "createDate":"TO_CHAR(BYKS_MYMANAGE.CREATE_DATE,'yyyy-mm-dd')",//添加日期
              "updateDate":"BYKS_MYMANAGE.UPDATE_DATE",//修改日期
         };

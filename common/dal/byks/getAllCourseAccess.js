@@ -6,7 +6,7 @@ function tableAccess(operater, dal) {
 tableAccess.prototype = unit.inherits({
     getColumns: function () {
         return {
-             "ID":"id",
+             "id":"ID",
              "courseName":"COURSENAME",
              "crowd":"CROWD",
              "keShi":"KESHI",

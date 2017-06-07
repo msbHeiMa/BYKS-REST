@@ -12,6 +12,7 @@ tableAccess.prototype = unit.inherits({
              "userImage":"USERIMAGE",
              "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",
              "updateDate":"UPDATE_DATE",
+             "userType":"USERTYPE",
         };
     },
     getTable: function () {

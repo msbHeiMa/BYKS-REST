@@ -65,7 +65,7 @@ var that = {
              callback(err,data&&data[1])
          })
      },
-     //
+     //上传头像
      changUserImage:function(data,callback){
          var acc=new loginAccess(null);
          var filter={id:data.userId};
@@ -129,7 +129,7 @@ var that = {
          })
      },
      //登陆注册界面 注册接口
-     zhuce:function(userName,passWord,userImage,callback){
+     zhuce:function(userName,passWord,userImage,userType,callback){
          var acc=new loginAccess(null);
          var ccfilter={userName:userName};
          var obj={
@@ -137,6 +137,7 @@ var that = {
              userName:userName,
              passWord:passWord,
              userImage:userImage,
+             userType:userType,
          }
          async.series([
              acc.open.bind(acc,false),
@@ -160,7 +161,7 @@ var that = {
     //作品展示页面 获取作品信息接口
     getAllZPList:function(callback){
         var acc= new getAllZPListAccess(null);
-        var filter={};
+        var filter={status:"通过"};
         async.series([
             acc.open.bind(acc,false),
             acc.getObjects.bind(acc,filter,["CREATE_DATE"])
@@ -172,7 +173,7 @@ var that = {
     //作品展示页面 通过类型筛选作品接口
     getAllZPByType:function(type,callback){
         var acc= new getAllZPListAccess(null);
-        var filter=(type=="全部类型"?{}:{worksType:type});
+        var filter=(type=="全部类型"?{status:"通过"}:{worksType:type,status:"通过"});
         async.series([
             acc.open.bind(acc,false),
             acc.getObjects.bind(acc,filter,["CREATE_DATE"])
@@ -268,6 +269,7 @@ var that = {
         var acc= new getAllZPListAccess(null);
         data.id=unit.getUuid();
         var id=data.id;
+        data.status="待办";
         async.series([
             acc.open.bind(acc,false),
             acc.insert.bind(acc,data)
@@ -419,6 +421,83 @@ var that = {
         async.series([
             acc.open.bind(acc,false),
             acc.getObject.bind(acc,filter),
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //后台管理员操作  作品审核页面
+    shenHeByStatus:function(data,callback){
+        var acc=new getAllZPListAccess(null);
+        var filter={status:data.status}
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["CREATE_DATE desc"]),
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+   //后台管理员操作 作品审核页面 待办标签页通过功能
+    shenHeTongGuo:function(obj,callback){
+        var acc=new getAllZPListAccess(null);
+        var filter={id:obj.id}
+        delete obj["id"];
+        obj.shDate=new Date().Format("yyyy-MM-dd hh:mm:ss");
+        async.series([
+            acc.open.bind(acc,false),
+            acc.update.bind(acc,obj,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //后台管理员操作 作品审核页面 待办标签页未通过功能
+    shenHeWeiTongGuo:function(obj,callback){
+        var acc=new getAllZPListAccess(null);
+        var filter={id:obj.id}
+        delete obj["id"];
+        obj.shDate=new Date().Format("yyyy-MM-dd hh:mm:ss");
+        async.series([
+            acc.open.bind(acc,false),
+            acc.update.bind(acc,obj,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+     //后台管理员操作 作品审核页面 通过标签页删除功能
+    shenHeShanChu:function(obj,callback){
+        var acc=new getAllZPListAccess(null);
+        var filter={id:obj.id}
+        delete obj["id"];
+        async.series([
+            acc.open.bind(acc,false),
+            acc.update.bind(acc,obj,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+     //后台管理员操作 发布课程页面 课程发布接口
+    faBuShiPin:function(obj,callback){
+        var acc=new getAllCourseAccess(null);
+        obj.id=unit.getUuid();
+        async.series([
+            acc.open.bind(acc,false),
+            acc.insert.bind(acc,obj)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //后台管理员操作 发布课程页面 删除课程接口
+    faBuKeChengShanChu:function(id,callback){
+        var acc=new getAllCourseAccess(null);
+        var filter={id:id}
+        async.series([
+            acc.open.bind(acc,false),
+            acc.delete.bind(acc,filter)
         ],function(err,data){
             acc.close(function(){});
             callback(err,data&&data[1])

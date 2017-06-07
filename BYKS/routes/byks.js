@@ -71,8 +71,9 @@ var actions = {
                 userName: "",
                 passWord: "",
                 userImage: "",
+                userType:"",
             });
-            byksService.zhuce(data.userName,data.passWord,data.userImage,webRes.exportJson.bind(null, res));
+            byksService.zhuce(data.userName,data.passWord,data.userImage,data.userType,webRes.exportJson.bind(null, res));
       
         }
     },
@@ -134,6 +135,7 @@ var actions = {
                 likeTime:"",
                 worksIntro:"",
                 worksImages:"",
+                status:"",
             });
             byksService.upload(data,webRes.exportJson.bind(null, res));
         }
@@ -198,6 +200,70 @@ var actions = {
             kcId:"",
         })
         byksService.getKcDetailByKcId(query.kcId,webRes.exportJson.bind(null, res));
+    },
+    //后台管理员操作 作品审核页面
+    shenHeByStatus:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                status:"",
+            });
+            byksService.shenHeByStatus(data,webRes.exportJson.bind(null, res));
+        }
+    },
+    //后台管理员操作 作品审核页面 待办标签页通过功能
+    shenHeTongGuo:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+               id:"",
+               status:"",
+               shr:"",
+               shDate:"",
+            });
+            byksService.shenHeTongGuo(data,webRes.exportJson.bind(null, res));
+        }
+    },
+    //后台管理员操作 作品审核页面 待办标签页未通过功能
+    shenHeWeiTongGuo:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                id:"",
+                status:"",
+                shr:"",
+                shDate:"",
+                wtgyy:"",
+            });
+            byksService.shenHeWeiTongGuo(data,webRes.exportJson.bind(null, res));
+        }
+    },
+     //后台管理员操作 作品审核页面 通过标签页删除功能
+    shenHeShanChu:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                id:"",
+                status:"",
+            });
+            byksService.shenHeShanChu(data,webRes.exportJson.bind(null, res));
+        }
+    },
+     //后台管理员操作 发布课程页面 课程发布接口
+    faBuShiPin:{
+        post:function(req,res){
+            var data=webReq.getParam(req,{
+                id:"",
+                courseName:"",
+                crowd:"",
+                keShi:"",
+                kcImages:"",
+            });
+            byksService.faBuShiPin(data,webRes.exportJson.bind(null, res));
+        }
+    },
+    //后台管理员操作 发布课程页面 删除课程接口
+    faBuKeChengShanChu:function(req,res){
+        var query=webReq.getQueryParam(req,{
+            id:"",
+        })
+        byksService.faBuKeChengShanChu(query.id,webRes.exportJson.bind(null, res));
     },
 };
 module.exports = actions;

@@ -15,6 +15,10 @@ tableAccess.prototype = unit.inherits({
              "worksImages":"WORKSIMAGES",//作品图片
              "createDate":"TO_CHAR(CREATE_DATE,'yyyy-mm-dd')",//添加日期
              "updateDate":"UPDATE_DATE",//修改日期
+             "status":"STATUS",//作品状态
+             "wtgyy":"WTGYY",//未通过原因
+             "shr":"SHR",//审核人
+             "shDate":"SHDATE",//审核日期
         };
     },
     getTable: function () {

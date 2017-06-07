@@ -25,6 +25,8 @@ var getManagentAccess=require(ROOT_DIR + "/common/dal/byks/getManagentAccess");
 var getKcDetailAccess=require(ROOT_DIR + "/common/dal/byks/getKcDetailAccess");
 //精彩内容产品详细信息数据库 可添加 删除 编辑 增加 查询数据
 var getJCZSDetailAccess=require(ROOT_DIR + "/common/dal/byks/getJCZSDetailAccess");
+//我的管理 课程管理 课程详细信息 用户表 四个表关联
+var getAllUserBaoMingXinXiAccess=require(ROOT_DIR + "/common/dal/byks/getAllUserBaoMingXinXiAccess");
 var that = {
     //报名课程模块下面课程获取接口
     getAllCourse:function(callback){
@@ -498,6 +500,18 @@ var that = {
         async.series([
             acc.open.bind(acc,false),
             acc.delete.bind(acc,filter)
+        ],function(err,data){
+            acc.close(function(){});
+            callback(err,data&&data[1])
+        })
+    },
+    //后台管理员操作 课程报名情况页面 
+    keChengBaoMingQingKuang:function(callback){
+        var acc=new getAllUserBaoMingXinXiAccess(null)
+        var filter={manageType:"报名"};
+        async.series([
+            acc.open.bind(acc,false),
+            acc.getObjects.bind(acc,filter,["BYKS_MYMANAGE.CREATE_DATE desc"])
         ],function(err,data){
             acc.close(function(){});
             callback(err,data&&data[1])

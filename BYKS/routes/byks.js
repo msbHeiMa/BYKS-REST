@@ -265,5 +265,9 @@ var actions = {
         })
         byksService.faBuKeChengShanChu(query.id,webRes.exportJson.bind(null, res));
     },
+    //后台管理员操作 课程报名情况页面 
+    keChengBaoMingQingKuang:function(req,res){
+        byksService.keChengBaoMingQingKuang(webRes.exportJson.bind(null, res));
+    },
 };
 module.exports = actions;
